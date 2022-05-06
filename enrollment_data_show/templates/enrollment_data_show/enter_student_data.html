@@ -1,0 +1,228 @@
+{% extends "enrollment_data_show/base.html" %}
+{% block content %}
+
+    {% if message %}
+        {{ message }}
+    {% endif %}
+
+    <h3>Enter Student Academic Data</h3>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'enter_student_data' %}">
+        {% csrf_token %}
+
+        <label for="image">Student Image</label>
+        <input type="file" name="image" id="image" accept="image/*" required><br>
+
+        <label for="id">NSU ID</label>
+        <input type="number" name="id" id="id" maxlength="10" required><br>
+
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" required><br>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required><br>
+
+        <label for="birth_certificate_number">Birth Certificate Number</label>
+        <input type="number" maxlength="17" name="birth_certificate_number" id="birth_certificate_number" required><br>
+
+        <datalist id="departmentList">
+            <option value="Department of Accounting & Finance">
+            <option value="Department of Economics">
+            <option value="Department of Management">
+            <option value="Department of Marketing & International Business">
+            <option value="Department of Architecture">
+            <option value="Department of Civil and Environmental Engineering">
+            <option value="Department of Electrical and Computer Engineering">
+            <option value="Department of English & Modern Languages">
+            <option value="Department of History & Philosophy">
+            <option value="Department of Law">
+            <option value="Department of Political Science & Sociology">
+            <option value="Department of Biochemistry & Microbiology">
+            <option value="Department of Environmental Science and Management">
+            <option value="Department of Pharmaceutical Sciences">
+            <option value="Department of Public Health">
+        </datalist>
+        <label for="department">Department</label>
+        <input type="search" list="departmentList" name="department" id="department" required><br>
+
+        <datalist id="majorList">
+            <option value="Bachelor of Architecture">
+            <option value="BS in Civil & Environmental Engineering (CEE)">
+            <option value="BS in Computer Science & Engineering (CSE)">
+            <option value="BS in Electrical & Electronic Engineering (EEE)">
+            <option value="BS in Electronic & Telecom Engineering (ETE)">
+            <option value="BS in Biochemistry and Biotechnology">
+            <option value="BS in Environmental Science & Management">
+            <option value="BS in Microbiology">
+            <option value="BPharm Professional">
+            <option value="BBA Major in Accounting">
+            <option value="BBA Major in Economics">
+            <option value="BBA Major in Entrepreneurship">
+            <option value="BBA Major in Finance">
+            <option value="BBA Major in Human Resource Management">
+            <option value="BBA Major in International Business">
+            <option value="BBA Major in Management">
+            <option value="BBA Major in Management Information Systems">
+            <option value="BBA Major in Marketing">
+            <option value="BBA Major in Supply Chain Management">
+            <option value="BBA General">
+            <option value="BS in Economics">
+            <option value="BA in English">
+            <option value="Bachelor of Laws (LLB Hons)">
+        </datalist>
+        <label for="major">Major in</label>
+        <input type="search" list="majorList" name="major" id="major" required><br>
+
+        {% load my_filters %}
+        <label for="enrolled_in"> Enrolled In </label>
+        <select name="enrolled_in" id="enrolled_in" required>
+            <option>Select Year</option>
+            {% for i in 1|year %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="hsc_passing_year"> HSC Passing Year</label>
+        <select name="hsc_passing_year" id="hsc_passing_year" required>
+            <option>Select Year</option>
+            {% for i in 1|year %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="hsc_gpa">HSC GPA</label>
+        <input type="number" min="1.00" max="5.00" step="0.01" name="hsc_gpa" id="hsc_gpa" maxlength="4" required><br>
+
+        <label for="ssc_passing_year"> SSC Passing Year</label>
+        <select name="ssc_passing_year" id="ssc_passing_year" required>
+            <option>Select Year</option>
+            {% for i in 1|year %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="ssc_gpa">SSC GPA</label>
+        <input type="number" min="1.00" max="5.00" step="0.01" name="ssc_gpa" id="ssc_gpa" maxlength="4" required><br>
+
+        <h3>Course Information</h3>
+
+        <label for="courseList">Courses</label>
+        <textarea type="text" name="courseList" id="courseList" placeholder="CSE115, CSE115L, ENG103, MAT116, ..." required></textarea><br>
+
+        <label for="creditList">Corresponding Credit Hours</label>
+        <textarea type="text" name="creditList" id="creditList" placeholder="3.0, 1.0, 3.0, 0.0, ..." required></textarea><br>
+
+        <label for="gradeList">Corresponding Grades</label>
+        <textarea type="text" name="gradeList" id="gradeList" placeholder="A, B+, A-, F, ..." required></textarea><br>
+
+        <h3>Enter Student Personal Data</h3>
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" id="dob" required><br>
+
+        <datalist id="genderList">
+            <option value="Male">
+            <option value="Female">
+        </datalist>
+        <label for="gender">Gender</label>
+        <input type="search" list="genderList" maxlength="6" name="gender" id="gender" required><br>
+
+        <datalist id="blood_group_list">
+            <option value="A+">
+            <option value="O+">
+            <option value="B+">
+            <option value="AB+">
+            <option value="A-">
+            <option value="O-">
+            <option value="B-">
+            <option value="AB-">
+        </datalist>
+        <label for="blood_group">Blood Group</label>
+        <input type="search" list="blood_group_list" name="blood_group" id="blood_group" required><br>
+
+        <datalist id="marital_status_list">
+            <option value="Single">
+            <option value="Married">
+            <option value="Widowed">
+            <option value="Divorced">
+        </datalist>
+        <label for="marital_status">Marital Status</label>
+        <input type="search" list="marital_status_list" name="marital_status" id="marital_status" required><br>
+
+        <label for="phone_number">Phone Number</label>
+        <input type="number" maxlength="14" name="phone_number" id="phone_number" required><br>
+
+        <label for="fathers_name">Fathers Name</label>
+        <input type="text" name="fathers_name" id="fathers_name" required><br>
+
+        <label for="fathers_occupation">Fathers Occupation</label>
+        <input type="text" name="fathers_occupation" id="fathers_occupation" required><br>
+
+        <label for="fathers_phone_number">Fathers Phone Number</label>
+        <input type="number" maxlength="14" name="fathers_phone_number" id="fathers_phone_number" required><br>
+
+        <label for="mothers_name">Mothers Name</label>
+        <input type="text" name="mothers_name" id="mothers_name" required><br>
+
+        <label for="mothers_occupation">Mothers Occupation</label>
+        <input type="text" name="mothers_occupation" id="mothers_occupation" required><br>
+
+        <label for="mothers_phone_number">Mothers Phone Number</label>
+        <input type="number" maxlength="14" name="mothers_phone_number" id="mothers_phone_number" required><br>
+
+        <label for="address">Address</label>
+        <textarea type="text" name="address" id="address" required></textarea><br>
+
+        <h3>Economic Information</h3>
+
+        <label for="nid_number">NID Number</label>
+        <input type="number" maxlength="13" name="nid_number" id="nid_number" required><br>
+
+        <label for="student_occupation">Student Occupation</label>
+        <input type="text" name="student_occupation" id="student_occupation" required><br>
+
+        <label for="student_annual_income">Student Annual Income</label>
+        <input type="number" name="student_annual_income" id="student_annual_income" required><br>
+
+        <label for="bank_account_number">Bank Account Number</label>
+        <input type="number" name="bank_account_number" id="bank_account_number" required><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h4>Student's List</h4>
+    {% if studentDict %}
+        <h5>Total {{ studentDict | length }} Records</h5>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">NSU ID</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in studentDict %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.nsuID }}</td>
+                    <td>
+                        <a href="{% url 'view_student_full_info' student_id=student.nsuID %}">
+                            <Button>View</Button>
+                        </a>
+                        <a href="{% url 'update_student_info' student_id=student.nsuID %}">
+                            <button>Edit</button>
+                        </a>
+                        <form method="POST" action="{% url 'delete_student_info' student_id=student.nsuID %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <h4>No Records</h4>
+    {% endif %}
+{% endblock %}

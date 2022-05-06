@@ -1,0 +1,18 @@
+{% extends "enrollment_data_show/base.html" %}
+{% block content %}
+
+    {% if error %}
+        {{ error }}
+    {% endif %}
+    <form method="POST" action="{% url 'admin_login' %}">
+        {% csrf_token %}
+        <label for="admin_username">Username</label>
+        <input type="text" name="admin_username" id="admin_username" required><br>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+{% endblock %}

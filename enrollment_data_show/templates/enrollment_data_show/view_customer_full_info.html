@@ -1,0 +1,36 @@
+{% extends "enrollment_data_show/base.html" %}
+{% block content %}
+
+    <style>
+        tr {
+            display: block;
+            float: left;
+        }
+
+        th, td {
+            display: block;
+        }
+    </style>
+
+    <h3>Customer Information</h3>
+
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td>Key:</td>
+            <td>Accessible Fields:</td>
+        </tr>
+        <tr>
+            <td>{{ customer.customer_name }}</td>
+            <td>{{ customer.key }}</td>
+            <td>
+                <div style="overflow: auto; height: 100px; width: 300px;">{{ customer.accessible_fields }}</div>
+            </td>
+
+        </tr>
+    </table>
+    <form method="POST" action="{% url 'delete_customer' customer.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+{% endblock %}

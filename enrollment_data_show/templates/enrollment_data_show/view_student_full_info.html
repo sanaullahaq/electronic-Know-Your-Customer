@@ -1,0 +1,125 @@
+{% extends "enrollment_data_show/base.html" %}
+{% block content %}
+
+    <style>
+        tr {
+            display: block;
+            float: left;
+        }
+
+        th, td {
+            display: block;
+        }
+    </style>
+
+    {% if message %}
+        {{ message }}
+    {% endif %}
+
+    <br><img src="{{ student.image.url }}" alt="Student Image" width="150" height="150">
+
+    <h3>Academic Information</h3>
+    <table>
+        <tr>
+            <td>NSU ID:</td>
+            <td>Name:</td>
+            <td>Email:</td>
+            <td>Birth Certificate Number:</td>
+            <td>Department:</td>
+            <td>Major In:</td>
+            <td>Enrolled In:</td>
+            <td>CGPA:</td>
+            <td>SSC Passing Year:</td>
+            <td>SSC GPA:</td>
+            <td>HSC Passing Year:</td>
+            <td>HSC GPA:</td>
+        </tr>
+        <tr>
+            <td>{{ student.nsuID }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.birth_certificate_number }}</td>
+            <td>{{ student.department }}</td>
+            <td>{{ student.majorIn }}</td>
+            <td>{{ student.enrolled_in }}</td>
+            <td>{{ student.cgpa }}</td>
+            <td>{{ student.hscPassYear }}</td>
+            <td>{{ student.hscGpa }}</td>
+            <td>{{ student.sscPassYear }}</td>
+            <td>{{ student.sscGpa }}</td>
+        </tr>
+    </table>
+
+    <h3>Course Information</h3>
+    <table>
+        <tr>
+            <td>Courses:</td>
+            <td>Credit Hours:</td>
+            <td>Credit Passed:</td>
+            <td>Grades:</td>
+        </tr>
+        <tr>
+            <td>{{ student.course_info.courses }}</td>
+            <td>{{ student.course_info.creditHours }}</td>
+            <td>{{ student.course_info.creditPassed }}</td>
+            <td>{{ student.course_info.grades }}</td>
+        </tr>
+    </table>
+
+    <h3>Personal Information</h3>
+    <table>
+        <tr>
+            <td>Date of Birth:</td>
+            <td>Gender:</td>
+            <td>Blood Group:</td>
+            <td>Marital Status:</td>
+            <td>Phone Number:</td>
+            <td>Fathers Name:</td>
+            <td>Fathers Occupation:</td>
+            <td>Fathers Phone Number:</td>
+            <td>Mothers Name:</td>
+            <td>Mothers Occupation:</td>
+            <td>Mothers Phone Number:</td>
+            <td>Address:</td>
+        </tr>
+        <tr>
+            <td>{{ student.personal_info.date_of_birth }}</td>
+            <td>{{ student.personal_info.gender }}</td>
+            <td>{{ student.personal_info.bloodGroup }}</td>
+            <td>{{ student.personal_info.marital_status }}</td>
+            <td>{{ student.personal_info.phone_number }}</td>
+            <td>{{ student.personal_info.fathers_name }}</td>
+            <td>{{ student.personal_info.fathers_occupation }}</td>
+            <td>{{ student.personal_info.fathers_phone_number }}</td>
+            <td>{{ student.personal_info.mothers_name }}</td>
+            <td>{{ student.personal_info.mothers_occupation }}</td>
+            <td>{{ student.personal_info.mothers_phone_number }}</td>
+            <td>{{ student.personal_info.address }}</td>
+        </tr>
+    </table>
+
+    <h3>Economic Information</h3>
+    <table>
+        <tr>
+            <td>NID Number:</td>
+            <td>Student Occupation:</td>
+            <td>Student Annual Income:</td>
+            <td>Bank Account Number:</td>
+        </tr>
+        <tr>
+            <td>{{ student.economic_info.nid_number }}</td>
+            <td>{{ student.economic_info.student_occupation }}</td>
+            <td>{{ student.economic_info.student_annual_income }}</td>
+            <td>{{ student.economic_info.bank_account_number }}</td>
+        </tr>
+    </table>
+
+    <a href="{% url 'update_student_info' student_id=student.nsuID %}">
+        <button>Edit</button>
+    </a>
+    <form method="POST" action="{% url 'delete_student_info' student_id=student.nsuID %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+
+{% endblock %}

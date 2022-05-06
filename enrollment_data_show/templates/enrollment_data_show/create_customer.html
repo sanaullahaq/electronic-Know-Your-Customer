@@ -1,0 +1,64 @@
+{% extends 'enrollment_data_show/base.html' %}
+{% block content %}
+
+    {% if message %}
+        {{ message }}
+    {% endif %}
+    <form method="POST" action="{% url 'create_customer' %}">
+        {% csrf_token %}
+        <label for="customer_name">Customer Name</label>
+        <input type="text" name="customer_name" id="customer_name" required><br>
+
+        <h4>Academic Information</h4>
+        {% for f in student_model_fields_name %}
+            {% if f|stringformat:"s" == "courses" %}
+                <h4>Course Information</h4>
+            {% endif %}
+
+            {% if f|stringformat:"s" == "date_of_birth" %}
+                <h4>Personal Information</h4>
+            {% endif %}
+
+            {% if f|stringformat:"s" == "nid_number" %}
+                <h4>Economic Information</h4>
+            {% endif %}
+
+            <input type="checkbox" name="selected_fields" id="{{ f }}" value="{{ f }}">
+            <label for="{{ f }}">{{ f }}</label><br>
+        {% endfor %}
+        <input type="submit" value="Create">
+    </form>
+
+
+    <h4>Customer's List</h4>
+    {% if customerDict %}
+        <h5>Total {{ customerDict | length }} Records</h5>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for customer in customerDict %}
+                <tr>
+                    <td>{{ customer.customer_name }}</td>
+                    <td>
+                        <a href="{% url 'view_customer_full_info' customer_id=customer.id %}">
+                            <Button>View</Button>
+                        </a>
+                        <form method="POST" action="{% url 'delete_customer' customer.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <h4>No Records</h4>
+    {% endif %}
+{% endblock %}
